@@ -1,8 +1,9 @@
 import * as d3 from "d3"
 // import './d3practice';
-import './bubble_chart';
+import './bubble_chart_nba';
 import './format_data';
-import './line_graph';
+// import './tool_tip.scss';
+// import './line_graph';
 
 // document.addEventListener('DOMContentLoaded', ()=>{
   

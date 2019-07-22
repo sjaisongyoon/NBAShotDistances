@@ -29,55 +29,55 @@ export const compareBy = (category) => {
 }
 
 // d3.json("../src/data/team_shot_data.json"). then( data => console.log(data))
-d3.json("../src/data/team_shot_data.json").then(function (data) {
+// d3.json("../src/data/team_shot_data.json").then(function (data) {
 
-    data.forEach( datum => datum.Season = +datum.Season.split("-")[1])
-    let format = [];
-    for (let i = 0; i < data.length; i++) {
-        const datum = data[i];
-        if (!format.length || datum.Season !== format[format.length - 1].season){
-            format.push({
-                season: datum.Season,
-                teams: [datum]
-            })
-        } else {
-            format[format.length - 1].teams.push(datum)
-        }
-    }
+//     data.forEach( datum => datum.Season = +datum.Season.split("-")[1])
+//     let format = [];
+//     for (let i = 0; i < data.length; i++) {
+//         const datum = data[i];
+//         if (!format.length || datum.Season !== format[format.length - 1].season){
+//             format.push({
+//                 season: datum.Season,
+//                 teams: [datum]
+//             })
+//         } else {
+//             format[format.length - 1].teams.push(datum)
+//         }
+//     }
 
-    let byTeam = []
-    for (let j = 0; j < data.length; j++) {
+//     let byTeam = []
+//     for (let j = 0; j < data.length; j++) {
 
-        const datum = data[j];
-        if (!byTeam.length || byTeam.every(obj => obj.team !== datum["Team"])) {
-            byTeam.push({
-                team: datum["Team"],
-                seasonStat: [datum]
-            })
-        } else{
-            byTeam.forEach(obj => {
-                if (obj.team === datum["Team"]){
-                    obj.seasonStat.push(datum)
-                }
-            })
+//         const datum = data[j];
+//         if (!byTeam.length || byTeam.every(obj => obj.team !== datum["Team"])) {
+//             byTeam.push({
+//                 team: datum["Team"],
+//                 seasonStat: [datum]
+//             })
+//         } else{
+//             byTeam.forEach(obj => {
+//                 if (obj.team === datum["Team"]){
+//                     obj.seasonStat.push(datum)
+//                 }
+//             })
 
-        }
+//         }
 
-    }
+//     }
 
-    let filtered = format.map( seasonData => {
-        return seasonData.teams.filter( team =>{
-            return Object.values(team).every(value => value !== null)
-        }).map(team => {
-            return team
-        })
-    })
-    // debugger;
-    console.log(data)
-    console.log(byTeam)
-    // console.log(format)
-    // console.log(filtered[22])
-})
+//     let filtered = format.map( seasonData => {
+//         return seasonData.teams.filter( team =>{
+//             return Object.values(team).every(value => value !== null)
+//         }).map(team => {
+//             return team
+//         })
+//     })
+//     // debugger;
+//     console.log(data)
+//     console.log(byTeam)
+//     // console.log(format)
+//     // console.log(filtered[22])
+// })
 
 
 
