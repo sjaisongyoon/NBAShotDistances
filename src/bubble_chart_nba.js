@@ -100,6 +100,7 @@ let timeLabel = g.append("text")
 
 d3.json("./data/team_shot_data.json").then(function (data) {
 
+    console.log("version1")
     data.forEach(datum => datum.Season = +datum.Season.split("-")[1])
     data.reverse();
     let format = [];
