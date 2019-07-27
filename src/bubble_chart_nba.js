@@ -98,7 +98,7 @@ let timeLabel = g.append("text")
 // d3tip tip = d3.tip().attr('class', 'd3tip').html(function(d) {return d;}), with 2 event listeners
 // on method
 
-d3.json("data/team_shot_data.json").then(function (data) {
+d3.json("./data/team_shot_data.json").then(function (data) {
 
     data.forEach(datum => datum.Season = +datum.Season.split("-")[1])
     data.reverse();
