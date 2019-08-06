@@ -8,6 +8,7 @@ Users will be able to look through the 96-97 season up to the 2018-2019 season.
 ## Screenshots
 
 **Visualization Over Seasons**
+<br>
 ![ScreenShot](https://i.imgur.com/wGd4Twj.gif)
 
 **Tool Tips Showing Extra Details**
