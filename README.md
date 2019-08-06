@@ -6,7 +6,12 @@ NBAShotDistances is a visualization of how the average distance of shots taken h
 Users will be able to look through the 96-97 season up to the 2018-2019 season.
 
 ## Screenshots
+
+**Visualization Over Seasons**
 ![ScreenShot](https://i.imgur.com/wGd4Twj.gif)
+
+**Tool Tips Showing Extra Details**
+![ToolTips](https://i.imgur.com/8nF29N4.png)
 
 ## Functionality & MVP
 * Visualization of the data per team average
