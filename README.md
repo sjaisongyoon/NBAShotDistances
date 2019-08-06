@@ -5,7 +5,7 @@ NBAShotDistances is a visualization of how the average distance of shots taken h
 
 Users will be able to look through the 96-97 season up to the 2018-2019 season.
 
-## Screenshots
+## Demo
 
 **Visualization Over Seasons**
 <br>
@@ -13,6 +13,39 @@ Users will be able to look through the 96-97 season up to the 2018-2019 season.
 
 **Tool Tips Showing Extra Details**
 ![ToolTips](https://i.imgur.com/8nF29N4.png)
+
+## Implementation
+In order to display the data properly, the raw data needed to be formatted into the correct structure. The raw data was made into a json file. A new POJO was then created with the desired structure by parsing the raw data in the original json file. 
+
+```javascript
+let format = [];
+let filtered;
+d3.json("dist/data/team_shot_data.json").then(function (data) {
+
+    data.forEach(datum => datum.Season = +datum.Season.split("-")[1])
+    data.reverse();
+    for (let i = 0; i < data.length; i++) {
+        const datum = data[i];
+        if (!format.length || datum.Season !== format[format.length - 1].season) {
+            format.push({
+                season: datum.Season,
+                teams: [datum]
+            })
+        } else {
+            format[format.length - 1].teams.push(datum)
+        }
+    }
+    filtered = format.map(seasonData => {
+        return seasonData.teams.filter(team => {
+            return Object.values(team).every(value => value[attShotDist] !== null)
+        })
+    }).map(season => season.sort(compareBy("team")))
+
+    update(filtered[0])
+
+})
+```
+
 
 ## Functionality & MVP
 * Visualization of the data per team average
