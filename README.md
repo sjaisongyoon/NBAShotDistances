@@ -1,7 +1,7 @@
 # NBAShotDistances
 
 ## Background and Overview 
-NBAShotDistances is a visualization of how the average distance of shots taken have increased over time. It shows the average shot distance of each team and within that the average shot distance of each player on the team.
+[NBAShotDistances](https://sjaisongyoon.github.io/NBAShotDistances/) is a visualization of how the average distance of shots taken have increased over time. It shows the average shot distance of each team and within that the average shot distance of each player on the team.
 
 Users will be able to look through the 96-97 season up to the 2018-2019 season.
 
