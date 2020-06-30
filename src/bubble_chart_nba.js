@@ -3,9 +3,9 @@ import d3Tip from 'd3-tip';
 import { compareBy } from './format_data';
 import $ from "jquery";
 
-const margin = { top: 100, right: 200, bottom: 300, left: 50 };
-const width = 1200 - margin.left - margin.right;
-const height = 1200 - margin.top - margin.bottom;
+const margin = { top: 100, right: 200, bottom: 50, left: 50 };
+const width = 1000 - margin.left - margin.right;
+const height = 700 - margin.top - margin.bottom;
 
 export const attShotDist = "Avg. Shot Dis.(ft.)";
 export const team = 'Team';
@@ -54,7 +54,9 @@ const yAxisGroup = g.append("g")
 const rightAxisGroup = g.append("g")
     .attr("class", "right-axis")
     .attr("transform", `translate(${width}, 0)`);
-
+const bottomAxisGroup = g.append('g')
+    .attr("class", "bottom-axis")
+    .attr("transform", `translate(0, ${height})`);    
 const xAxisGroup = g.append("g")
     .attr("class", "x-axis")
 
@@ -82,13 +84,11 @@ let timeLabel = g.append("text")
     .attr("x", 30);
 
 // on method
-console.log("version1")
 let format = [];
 let filtered;
 
 d3.json("dist/data/team_shot_data.json").then(function (data) {
 
-    // console.log("version1")
     data.forEach(datum => datum.Season = +datum.Season.split("-")[1])
     data.reverse();
     for (let i = 0; i < data.length; i++) {
@@ -153,16 +153,22 @@ function update(data) {
         .ease(d3.easeSinIn)
 
     const yAxisCall = d3.axisLeft(y)
-        .tickFormat("").tickSize(0);
+        .tickFormat("").tickSize(3);
     yAxisGroup.call(yAxisCall);
 
     const yAxisRight = d3.axisRight(y)
-        .tickSizeOuter(0);
+        // .tickSizeOuter(0);
+        // .tickSize(3)
     rightAxisGroup.call(yAxisRight)
 
     const xAxisCall = d3.axisTop(x)
-        .tickSizeOuter(0);
+        // .tickSizeOuter(0);
+        // .tickSize(3)
+    const xAxisBottomCall = d3.axisBottom(x)
+        // .tickSizeOuter(0)
+        // .tickSize(3)
     xAxisGroup.call(xAxisCall);
+    bottomAxisGroup.call(xAxisBottomCall);
 
     const joins = g.selectAll("line")
         .data(data, (d,i) => {
@@ -231,12 +237,10 @@ function update(data) {
     
     timeLabel.text("Season: " + `${+(time + 1997 -1)}` + " - " +(time + 1997) )
 
-        d3.select(".right-axis").selectAll("text")
+    d3.select(".right-axis")
+        .selectAll("text")
         .attr("font-size", "10px")
         .attr("x", "3")
         // .attr("y", d => y(d[team]) + y.bandwidth())
-
-
-
 }
 
