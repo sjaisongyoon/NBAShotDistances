@@ -11,9 +11,11 @@
     "d3": "^5.16.0",
     "d3-tip": "^0.9.1",
     "jquery": "^3.5.1",
+    "jquery-ui": "^1.12.1",
     "webpack": "^4.43.0"
   },
   "devDependencies": {
+    "css-loader": "^3.6.0",
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0"
   },

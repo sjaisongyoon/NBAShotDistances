@@ -2,10 +2,25 @@ import * as d3 from "d3"
 import d3Tip from 'd3-tip';
 import { compareBy } from './format_data';
 import $ from "jquery";
+import "jquery-ui/ui/widgets/slider"
+import "jquery-ui/themes/base/core.css"
+import "jquery-ui/themes/base/slider.css";
+// import "jquery-ui/ui/widgets/"
 
-const margin = { top: 100, right: 200, bottom: 50, left: 50 };
-const width = 1000 - margin.left - margin.right;
-const height = 700 - margin.top - margin.bottom;
+const margin = { top: 100, right: 100, bottom: 50, left: 100 };
+let width = window.innerWidth - 250
+let height = window.innerHeight - 200
+
+// const setWidthHeight = () => {
+//     console.log("this ran", window.innerWidth)
+//     width = window.innerWidth * 0.55 - margin.left - margin.right;
+//     height = 700 - margin.top - margin.bottom;
+//     // d3.select(".svg-container")
+//     //   .style("width", width + margin.left + margin.right)
+//     //   .style("height", height + margin.top + margin.bottom);
+// }
+
+// window.addEventListener("resize", setWidthHeight)
 
 export const attShotDist = "Avg. Shot Dis.(ft.)";
 export const team = 'Team';
@@ -14,14 +29,23 @@ export const missedShotDist = "Avg. Missed Shot Dis.(ft.)"
 
 let time = 0;
 let interval;
-let formattedData;
+// let formattedData;
 const svg = d3.select('#chart-area')
     .append('svg')
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom);
+    .attr("class", "svg-container")
+    // .attr("viewBox", `0 0 ${width+margin.left+margin.right} ${height+margin.top+margin.bottom}`)
+    .style("width", width + margin.left + margin.right)
+    .style("height", height + margin.top + margin.bottom);
 
 const g = svg.append("g")
-    .attr("transform", `translate(${margin.left}, ${margin.top})`)
+    .attr("class", "chart-container")
+    // .attr("transform", `translate(${margin.left}, ${margin.top})`)
+    .attr("transform", `translate(${margin.left/2}, ${margin.top})`)
+
+// const svgWidth = $(".chart-container")[0].getBBox().width;
+// console.log(svgWidth)
+// d3.select(".svg-container")
+//     .attr("width", svgWidth)
 
 const tip = d3Tip().attr('class', 'd3-tip')
     .html(d => {
@@ -122,7 +146,7 @@ function step(){
 $("#play-button")
     .on("click", function(){
         let button = $(this);
-        if (button.text() == "Play"){
+        if (button.text() === "Play"){
             button.text("Pause");
             interval = setInterval(step, 1000);   
         } else {
@@ -137,9 +161,20 @@ $("#reset-button")
         return update(filtered[0]);
     })
 
-    
-function update(data) {
+$("#slider").slider({
+    max: 2018,
+    min: 1996,
+    range: false,
+    step: 1,
+    value: 1996,
+    slide: function(event, ui){
+        time = ui.value - 1996;
+        update(filtered[time]);
+    }
+})
 
+    
+function update(data) {    
     const teamColor = d3.scaleSequential(d3.interpolateOrRd);
     const t = d3.transition()
         .duration(200)
@@ -235,8 +270,9 @@ function update(data) {
 
 
     
-    timeLabel.text("Season: " + `${+(time + 1997 -1)}` + " - " +(time + 1997) )
-
+    timeLabel.text("Season: " + `${+(time + 1996)}` + " - " +(time + 1997) )
+    $("#season")[0].innerHTML = +(time + 1996) + " - " +(time+1997)
+    $("#slider").slider("value", +(time + 1996))    
     d3.select(".right-axis")
         .selectAll("text")
         .attr("font-size", "10px")

@@ -2,3 +2,20 @@
     display: flex;
     justify-content: center;
 }
+
+#slider-div {
+    /* display: flex; */
+    /* justify-c??ontent: center; */
+    /* align-items: center; */
+    max-width: 50%;
+    padding: 25px;
+    margin: 0 auto;
+}
+
+#slider {
+    margin-top: 10px;
+}
+
+.ui-slider .ui-slider-handle {
+    cursor: pointer;
+}
