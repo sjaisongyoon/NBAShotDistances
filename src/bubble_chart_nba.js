@@ -7,20 +7,20 @@ import "jquery-ui/themes/base/core.css"
 import "jquery-ui/themes/base/slider.css";
 // import "jquery-ui/ui/widgets/"
 
-const margin = { top: 100, right: 100, bottom: 50, left: 100 };
+const margin = { top: 75, right: 100, bottom: 50, left: 100 };
 let width = window.innerWidth - 250
-let height = window.innerHeight - 200
+let height = window.innerHeight - 250
 
-// const setWidthHeight = () => {
-//     console.log("this ran", window.innerWidth)
-//     width = window.innerWidth * 0.55 - margin.left - margin.right;
-//     height = 700 - margin.top - margin.bottom;
-//     // d3.select(".svg-container")
-//     //   .style("width", width + margin.left + margin.right)
-//     //   .style("height", height + margin.top + margin.bottom);
-// }
+const setWidthHeight = () => {
+    console.log("this ran", window.innerWidth)
+    width = window.innerWidth - 250;
+    height = window.innerHeight - 200;
+    d3.select(".svg-container")
+      .style("width", width + margin.left + margin.right)
+      .style("height", height + margin.top + margin.bottom);
+}
 
-// window.addEventListener("resize", setWidthHeight)
+window.addEventListener("resize", setWidthHeight)
 
 export const attShotDist = "Avg. Shot Dis.(ft.)";
 export const team = 'Team';
@@ -33,7 +33,7 @@ let interval;
 const svg = d3.select('#chart-area')
     .append('svg')
     .attr("class", "svg-container")
-    // .attr("viewBox", `0 0 ${width+margin.left+margin.right} ${height+margin.top+margin.bottom}`)
+    .attr("viewBox", `0 0 ${width+margin.left+margin.right} ${height+margin.top+margin.bottom}`)
     .style("width", width + margin.left + margin.right)
     .style("height", height + margin.top + margin.bottom);
 
@@ -99,7 +99,8 @@ let xLabel = g.append("text")
     .attr("y", -40)
     .attr("x", width/2)
     .text("Average Shot Attempt Distance (ft.)")
-    .attr("font-size", "20px")
+    .attr("font-size", "18px")
+    .attr("font-weight", "bold")
     .attr("text-anchor", "middle")
 
 let timeLabel = g.append("text")
@@ -148,7 +149,7 @@ $("#play-button")
         let button = $(this);
         if (button.text() === "Play"){
             button.text("Pause");
-            interval = setInterval(step, 1000);   
+            interval = setInterval(step, 800);   
         } else {
             button.text("Play");
             clearInterval(interval);
@@ -175,7 +176,7 @@ $("#slider").slider({
 
     
 function update(data) {    
-    const teamColor = d3.scaleSequential(d3.interpolateOrRd);
+    const teamColor = d3.scaleSequential(d3.interpolateCividis);
     const t = d3.transition()
         .duration(200)
         .ease(d3.easeLinear)
@@ -185,7 +186,7 @@ function update(data) {
     const t2 = d3.transition()
         .duration(100)
         // .delay(300)
-        .ease(d3.easeSinIn)
+        .ease(d3.easeLinear)
 
     const yAxisCall = d3.axisLeft(y)
         .tickFormat("").tickSize(3);
@@ -197,24 +198,23 @@ function update(data) {
     rightAxisGroup.call(yAxisRight)
 
     const xAxisCall = d3.axisTop(x)
-        // .tickSizeOuter(0);
+        .tickSizeOuter(0);
         // .tickSize(3)
     const xAxisBottomCall = d3.axisBottom(x)
-        // .tickSizeOuter(0)
+        .tickSizeOuter(0)
         // .tickSize(3)
     xAxisGroup.call(xAxisCall);
     bottomAxisGroup.call(xAxisBottomCall);
 
     const joins = g.selectAll("line")
-        .data(data, (d,i) => {
-            // debugger
+        .data(data, (d,i) => {            
             return d
         })
 
     joins.enter()
         .append("line")
-        .attr("stroke", "grey")
-        .attr("stroke-width", 3)
+        .attr("stroke", "#c6c6c6")
+        .attr("stroke-width", 1.5)
         .attr("x1", (d) => x(d[attShotDist]))
         .attr("y1", d => {
             return y(d[team]) + y.bandwidth() / 2
@@ -228,31 +228,20 @@ function update(data) {
             return y(d[team]) + y.bandwidth() / 2
         })
         .attr("y2", height/2)
-        .attr("x2", 0)
-        .style("z-index", 99)
+        .attr("x2", 0)        
         .style("position", "relative")
-
-    const teams = g.selectAll("circle")
-        .data(data, function (d) {
-            return d[team]
-        })
-
-    //EXIT
-    teams.exit()
-        .attr("class", "exit")
-        .transition(t)
-        .attr("height", 0)
-        .remove();
-
     joins.exit()
         // .transition(t)
-        .remove()
-
-
+        .remove();
+    
     //ENTER
+    const teams = g.selectAll("circle").data(data, function (d) {
+        return d[team];
+    });
+
     teams.enter()
         .append("circle")
-        .attr("class", "enter teamcircle")
+        // .attr("class", "enter teamcircle")
         .attr("id", (d,i)=> d[team])
         .attr("fill", (d, i) => teamColor(i / (data.length)))
         .on("mouseover", tip.show)
@@ -265,11 +254,15 @@ function update(data) {
             // debugger
             return Math.sqrt(area(d[madeShotDist]) / Math.PI)
         })
-        .style("z-index", 999)
         .style("position", "relative")
-
-
     
+    //EXIT    
+    teams.exit()
+        // .attr("class", "exit")
+        .transition(t)
+        // .attr("height", 0)
+        .remove();
+
     timeLabel.text("Season: " + `${+(time + 1996)}` + " - " +(time + 1997) )
     $("#season")[0].innerHTML = +(time + 1996) + " - " +(time+1997)
     $("#slider").slider("value", +(time + 1996))    

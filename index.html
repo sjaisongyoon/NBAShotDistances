@@ -7,19 +7,23 @@
     <link rel="stylesheet" href="dist/css/tool_tip.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="dist/css/layout.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
     <title>Document</title>
 </head>
 <body>
     <div class="container">
         <div class="row">                      
-            <div id="chart-area"></div>            
-            <div class="buttons">
-                <button id='play-button' class="btn">Play</button>
-                <button id='reset-button' class="btn">Reset</button>
-            </div>
-            <div id="slider-div">
-                <label>Season: <span id="season">1996-1997</span> </label>
-                <div id="slider"></div>
+            <div id="chart-area">
+                <div id="display-controls">                       
+                    <div class="buttons">
+                        <button id='play-button' class="btn">Play</button>
+                        <button id='reset-button' class="btn">Reset</button>
+                    </div>
+                    <div id="slider-div">
+                        <label>Season: <span id="season">1996-1997</span> </label>
+                        <div id="slider"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
