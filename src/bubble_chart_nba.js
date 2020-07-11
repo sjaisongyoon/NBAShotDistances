@@ -5,7 +5,6 @@ import $ from "jquery";
 import "jquery-ui/ui/widgets/slider"
 import "jquery-ui/themes/base/core.css"
 import "jquery-ui/themes/base/slider.css";
-// import "jquery-ui/ui/widgets/"
 
 const margin = { top: 75, right: 100, bottom: 50, left: 100 };
 let width = window.innerWidth - 250
@@ -42,11 +41,6 @@ const g = svg.append("g")
     // .attr("transform", `translate(${margin.left}, ${margin.top})`)
     .attr("transform", `translate(${margin.left/2}, ${margin.top})`)
 
-// const svgWidth = $(".chart-container")[0].getBBox().width;
-// console.log(svgWidth)
-// d3.select(".svg-container")
-//     .attr("width", svgWidth)
-
 const tip = d3Tip().attr('class', 'd3-tip')
     .html(d => {
         // debugger
@@ -81,7 +75,7 @@ const rightAxisGroup = g.append("g")
 const bottomAxisGroup = g.append('g')
     .attr("class", "bottom-axis")
     .attr("transform", `translate(0, ${height})`);    
-const xAxisGroup = g.append("g")
+const topAxisGroup = g.append("g")
     .attr("class", "x-axis")
 
 g.append("ellipse")
@@ -193,17 +187,13 @@ function update(data) {
     yAxisGroup.call(yAxisCall);
 
     const yAxisRight = d3.axisRight(y)
-        // .tickSizeOuter(0);
-        // .tickSize(3)
     rightAxisGroup.call(yAxisRight)
 
-    const xAxisCall = d3.axisTop(x)
+    const xAxisTopCall = d3.axisTop(x)
         .tickSizeOuter(0);
-        // .tickSize(3)
     const xAxisBottomCall = d3.axisBottom(x)
         .tickSizeOuter(0)
-        // .tickSize(3)
-    xAxisGroup.call(xAxisCall);
+    topAxisGroup.call(xAxisTopCall);
     bottomAxisGroup.call(xAxisBottomCall);
 
     const joins = g.selectAll("line")
@@ -231,7 +221,6 @@ function update(data) {
         .attr("x2", 0)        
         .style("position", "relative")
     joins.exit()
-        // .transition(t)
         .remove();
     
     //ENTER
@@ -241,7 +230,6 @@ function update(data) {
 
     teams.enter()
         .append("circle")
-        // .attr("class", "enter teamcircle")
         .attr("id", (d,i)=> d[team])
         .attr("fill", (d, i) => teamColor(i / (data.length)))
         .on("mouseover", tip.show)
@@ -258,9 +246,7 @@ function update(data) {
     
     //EXIT    
     teams.exit()
-        // .attr("class", "exit")
         .transition(t)
-        // .attr("height", 0)
         .remove();
 
     timeLabel.text("Season: " + `${+(time + 1996)}` + " - " +(time + 1997) )
@@ -270,6 +256,5 @@ function update(data) {
         .selectAll("text")
         .attr("font-size", "10px")
         .attr("x", "3")
-        // .attr("y", d => y(d[team]) + y.bandwidth())
 }
 
